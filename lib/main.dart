@@ -30,8 +30,11 @@ class MyApp extends StatelessWidget {
             return const DesktopPage();
           } else {
             // return Calculator(maximizado: ValueNotifier<bool>(false));
-            // return MobileCalculator();
-            return const MobileDesktopPage();
+            return MobileCalculator(
+              dx: 0,
+              dy: 0,
+            );
+            // return const MobileDesktopPage();
             // return const MobileContactPage(
             //   dx: 0,
             //   dy: 0,

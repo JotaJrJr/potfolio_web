@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio_web/common/screens/calculadora/models/calculator_cell.dart';
 import 'package:portfolio_web/common/screens/calculadora/viewmodel/calculator_view_model.dart';
+import 'package:portfolio_web/common/screens/calculadora/widgets/calculator_button_widget.dart';
 
 import '../../mobile/view/mobile_desktop_page.dart';
+import '../constants/calculator_cell_views.dart';
+import '../constants/calculator_cells.dart';
+import '../models/calculator_cell_view.dart';
 
 class MobileCalculator extends StatefulWidget {
   final double dx;
@@ -46,6 +51,23 @@ class _MobileCalculatorState extends State<MobileCalculator> {
                     ),
                   ),
                 ),
+                ...smallCalculator.map((row) {
+                  return Row(
+                    children: row.map((cell) {
+                      CalculatorCell cellResult = cell.onRender(_viewModel);
+                      return Expanded(
+                        flex: cell.size,
+                        child: CalculatorButtonWidget(
+                          text: cellResult.text,
+                          color: cellResult.color,
+                          onPressed: () {
+                            _viewModel.executeCell(cellResult);
+                          },
+                        ),
+                      );
+                    }).toList(),
+                  );
+                })
               ],
             ),
 
@@ -103,6 +125,38 @@ class _MobileCalculatorState extends State<MobileCalculator> {
       ),
     );
   }
+
+  static List<List<CalculatorCellView>> smallCalculator = [
+    [
+      CalculatorCellViews.deleteButton,
+      CalculatorCellView.staticButton(CalculatorCells.changeSignButton),
+      CalculatorCellView.staticButton(CalculatorCells.percentageButton),
+      CalculatorCellView.staticButton(CalculatorCells.divisionButton),
+    ],
+    [
+      CalculatorCellView.staticButton(CalculatorCells.sevenButton),
+      CalculatorCellView.staticButton(CalculatorCells.eightButton),
+      CalculatorCellView.staticButton(CalculatorCells.nineButton),
+      CalculatorCellView.staticButton(CalculatorCells.multiplicationButton),
+    ],
+    [
+      CalculatorCellView.staticButton(CalculatorCells.fourButton),
+      CalculatorCellView.staticButton(CalculatorCells.fiveButton),
+      CalculatorCellView.staticButton(CalculatorCells.sixButton),
+      CalculatorCellView.staticButton(CalculatorCells.subtractionButton),
+    ],
+    [
+      CalculatorCellView.staticButton(CalculatorCells.oneButton),
+      CalculatorCellView.staticButton(CalculatorCells.twoButton),
+      CalculatorCellView.staticButton(CalculatorCells.threeButton),
+      CalculatorCellView.staticButton(CalculatorCells.additionButton),
+    ],
+    [
+      CalculatorCellView.staticButton(CalculatorCells.zeroButton, size: 2),
+      CalculatorCellView.staticButton(CalculatorCells.dotButton),
+      CalculatorCellView.staticButton(CalculatorCells.equalButton),
+    ],
+  ];
 }
 
 // // // ignore_for_file: prefer_const_constructors
