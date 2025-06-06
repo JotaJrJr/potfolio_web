@@ -7,6 +7,7 @@ import '../../mobile/view/mobile_desktop_page.dart';
 import '../constants/calculator_cell_views.dart';
 import '../constants/calculator_cells.dart';
 import '../models/calculator_cell_view.dart';
+import '../widgets/mobile_calculator_button_widget.dart';
 
 class MobileCalculator extends StatefulWidget {
   final double dx;
@@ -29,46 +30,150 @@ class _MobileCalculatorState extends State<MobileCalculator> {
 
   @override
   Widget build(BuildContext context) {
+    final double _displayHeight = MediaQuery.of(context).size.height * 0.24;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
+        bottom: false,
         child: Stack(
           children: [
-            Column(
-              children: [
-                Container(
-                  height: 100,
-                  color: Colors.black,
-                  child: Align(
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 8,
+                left: 8,
+                bottom: 8,
+              ),
+              child: Column(
+                children: [
+                  Align(
                     alignment: Alignment.bottomRight,
                     child: Text(
-                      "Calculadora",
-                      style: TextStyle(
+                      _viewModel.displayText,
+                      style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                       ),
+                      textAlign: TextAlign.end,
                     ),
                   ),
-                ),
-                ...smallCalculator.map((row) {
-                  return Row(
-                    children: row.map((cell) {
-                      CalculatorCell cellResult = cell.onRender(_viewModel);
-                      return Expanded(
-                        flex: cell.size,
-                        child: CalculatorButtonWidget(
-                          text: cellResult.text,
-                          color: cellResult.color,
-                          onPressed: () {
-                            _viewModel.executeCell(cellResult);
-                          },
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 30,
+                          color: Colors.red,
                         ),
-                      );
-                    }).toList(),
-                  );
-                })
-              ],
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 30,
+                          color: Colors.red,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 30,
+                          color: Colors.red,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 30,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          height: 30,
+                          color: Colors.red,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 30,
+                          color: Colors.red,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 30,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  // Wrap(
+                  //   children: smallCalculator.map((e) {
+                  //     return buildButton(e.map(toElement.characters).toList());
+                  //   }),
+                  // ),
+
+                  // smallCalculator.map((row) {
+                  //   return Row(
+                  //     children: row.map((cell) {
+                  //       CalculatorCell cellResult = cell.onRender(_viewModel);
+                  //       return Expanded(
+                  //         flex: cell.size,
+                  //         child: MobileCalculatorButtonWidget(
+                  //           text: cellResult.text,
+                  //           color: cellResult.color,
+                  //           onPressed: () {
+                  //             _viewModel.executeCell(cellResult);
+                  //           },
+                  //         ),
+                  //       );
+                  //     }).toList(),
+                  //     })
+                  //   )
+                  // }),
+
+                  // Wrap(
+                  //   children: ...smallCalculator.map((row) {
+                  //     return
+                  //   }),
+                  // )
+
+                  // ...smallCalculator.map((row) {
+                  //   return Row(
+                  //     children: row.map((cell) {
+                  //       CalculatorCell cellResult = cell.onRender(_viewModel);
+                  //       return Expanded(
+                  //         flex: cell.size,
+                  //         child: CalculatorButtonWidget(
+                  //           text: cellResult.text,
+                  //           color: cellResult.color,
+                  //           onPressed: () {
+                  //             _viewModel.executeCell(cellResult);
+                  //           },
+                  //         ),
+                  //       );
+                  //     }).toList(),
+                  //   );
+                  // }),
+                ],
+              ),
             ),
 
             /// ASSISTIVE TOUCH
@@ -124,6 +229,10 @@ class _MobileCalculatorState extends State<MobileCalculator> {
         ),
       ),
     );
+  }
+
+  Widget buildButton(value) {
+    return Text(value);
   }
 
   static List<List<CalculatorCellView>> smallCalculator = [
